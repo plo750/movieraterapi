@@ -1,0 +1,2 @@
+project: movierater
+application: api
