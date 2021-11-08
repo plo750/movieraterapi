@@ -12,3 +12,5 @@ class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
         fields = ('id', 'stars', 'user', 'movie')
+
+# Once serializers setup need to config views.py
