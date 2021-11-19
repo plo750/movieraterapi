@@ -16,20 +16,26 @@ class MovieViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['POST'])
     def rate_movie(self, request, pk=None):
         if 'stars' in request.data:
+            # http://127.0.0.1:8000/api/movies/[pk value]]/rate_movie/
             movie = Movie.objects.get(id=pk)
             stars = request.data['stars']
-            # user = request.user
+            # user = request.user # is part of the request ==> Not valid because no authentication has been done.
+            # ==> Create a static user
             user = User.objects.get(id=2)
 
             try:
+                # user.id == ForeignKey also for the movie.id
                 rating = Rating.objects.get(user=user.id, movie=movie.id)
                 rating.stars = stars
                 rating.save()
+                # many = False ==> only one rating
                 serializers = RatingSerializer(rating, many=False)
                 response = {'message': 'Rating updated', 'result': serializers.data}
                 return Response(response, status=status.HTTP_200_OK)
             except:
+                # We pass the all objects
                 rating = Rating.objects.create(user=user, movie=movie, stars=stars)
+                # many = False ==>
                 serializers = RatingSerializer(rating, many=False)
                 response = {'message': 'Rating created', 'result': serializers.data}
                 return Response(response, status=status.HTTP_200_OK)
