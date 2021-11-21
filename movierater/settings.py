@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    # Add token to admin interface
+    'rest_framework.authtoken',
     'api',
 ]
 
